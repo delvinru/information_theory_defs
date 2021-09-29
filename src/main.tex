@@ -4,11 +4,123 @@
 \usepackage[utf8]{inputenc}
 \usepackage[main=russian, english]{babel}
 
+\usepackage{amsmath}
+
 \title{Определения по Теории Информации}
 \date{\today}
 \author{Колесников Алексей}
 
+\input{lib/defs}
+
 \begin{document}
 \maketitle
+
+\opr Дискретной случайной величиной $A$ называется определенное на вероятностном пространстве $(\Omega, F, P)$ и принимающим
+значения из множества $a$, называется произвольное измеримое отображение $A: \Omega \rightarrow a$, т.е.
+$$
+\forall a_i \in a : A^{-1}(a_i) = \{\omega: A(\omega) = a_i\} \in F.
+$$
+
+\opr Вероятностная схема:
+$$
+A \sim
+\begin{pmatrix}
+    a_1 & a_2 & \dots \\
+    p(a_1) & p(a_2) & \dots
+\end{pmatrix}
+$$
+или
+\begin{align*}
+A \sim
+\begin{pmatrix}
+    a_1 & a_2 & \dots \\
+    p(a_1) & p(a_2) & \dots
+\end{pmatrix}
+=
+\begin{pmatrix}
+    a_1 & a_2 & \dots & a_n \\
+    p_1 & p_2 & \dots & p_n
+\end{pmatrix}
+=
+( p_1, p_2, \dots, p_n ). \\
+\forall i \in \overline{1, n} : p_i \geq 0, \sum_{i=1}^{n} p_i = 1.\\
+B \sim
+\begin{pmatrix}
+    b_1 & b_2 & \dots \\
+    p(b_1) & p(b_2) & \dots
+\end{pmatrix}
+=
+\begin{pmatrix}
+    b_1 & b_2 & \dots & b_m \\
+    q_1 & q_2 & \dots & q_m
+\end{pmatrix}
+=
+( q_1, q_2, \dots, q_m ). \\
+\forall i \in \overline{1, m} : p_i \geq 0, \sum_{i=1}^{m} q_i = 1.
+\end{align*}
+
+\opr Обхединенная вероятностная схема $AB$ с множеством исходов $a_ib_j$:
+$$
+AB \sim 
+\begin{pmatrix}
+    a_1b_1 & a_1b_2 & \dots & a_nb_m \\
+    p(a_1b_1) & p(a_1b_2) & \dots & p(a_nb_m)
+\end{pmatrix}.
+$$
+
+При этом $\sum\limits_{i=1}^{n} p(a_ib_j) = q_j$ и $\sum\limits_{j=1}^{m}p(a_ib_j) = p_j$.
+
+Если $\sum\limits_{j=1}^{m}\sum\limits_{i=1}^{n}p(a_ib_j) = 1$, то события $A$ и $B$ независимы.
+
+\opr Собственная информация, содержащаяся в исходе $a_i \in A$:
+$$
+I(a_i) = \log_2{\frac{1}{p(a_i)}}.
+$$
+
+\opr Энтропия вероятностной схемы $A$(средняя собственная информация)(усреднение собственной информации $I(a_i)$ по вероятностной схеме $A$):
+$$
+    H(A) = E_A I(a_i) = \sum_{i=1}^{n} p(a_i) \cdot I(a_i) = \sum_{i=1}^{n} p(a_i) \cdot \log_2{\frac{1}{p(a_i)}}\\
+$$
+Итого,
+$$
+    H(A) = - \sum_{i=1}^{n} p(a_i) \cdot \log_2{p(a_i)}.
+$$
+
+\opr Собственная информация, содержащаяся в исходе $a_jb_j \in AB$:
+$$
+I(a_ib_j) = \log_2{\frac{1}{p(a_ib_j)}}.
+$$
+
+\opr Энтропия объединенной вероятностной схемы $AB$(усреднение $I(a_ib_j)$ по вероятностной схеме $AB$):
+$$
+H(AB) = \sum_{i=1}^{n}\sum_{j=1}^{m} p(a_ib_j)\cdot \log_2{\frac{1}{p(a_ib_j)}}.
+$$
+Итого,
+$$
+H(AB) = - \sum_{(i, j)} p(a_ib_j) \cdot \log_2{p(a_ib_j)}.
+$$
+
+\opr Условная собственная информация, содержащаяся в исходе $a_i \in A$ при условии реализации исхода $b_j \in B$:
+$$
+I(a_i / b_j) = \log_2{\frac{1}{p(a_i / b_j)}},\ \text{где}\  p(a_i/b_j) = \frac{p(a_ib_j)}{p(b_j)}.
+$$
+
+\opr Условная энтропия вероятностной схемы $A$ относительно исхода $b_j \in B$(усреднение $I(a_i/b_j)$ по вероятностной схеме $A/b_j$):
+$$
+H(A/b_j) = E_{A/b_j} I(a_i/b_j) = \sum_{i=1}^{n}p(a_i/b_j) \cdot I(a_i/b_j).
+$$
+Итого,
+$$
+H(A/b_j) = - \sum_{i=1}^{n} p(a_i / b_j) \log_2{p(a_i / b_j)}.
+$$
+
+\opr Условная энтропия вероятностной схемы $A$ относительно вероятностной схемы $B$ (усреднение $I(a_i/b_j)$ по вероятностной схеме $AB$):
+$$
+H(A/B) = E_{AB} I(a_i/b_j) = \sum_{i=1}^{n} \sum_{j=1}^{m} p(a_ib_j) I(a_i/b_j).
+$$
+Итого,
+$$
+H(A/B) = - \sum_{i=1}^{n} \sum_{j=1}^{m} p(a_ib_j) \log_2(p(a_i/b_j)).
+$$
 
 \end{document}
